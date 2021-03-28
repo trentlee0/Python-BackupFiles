@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "name": "",
+      "sourcePath": "D:\\Blogs",
+      "targetPath": "C:\\Users\\trent\\Desktop\\target1"
+    },
+    {
+      "name": "",
+      "sourcePath": "D:\\Blogs",
+      "targetPath": "C:\\Users\\trent\\Desktop\\target2"
+    }
+  ],
+  "profile": {
+    "ignoreFiles": [
+      "desktop.ini"
+    ],
+    "suffixName": "_%Y-%m-%d"
+  }
+}
