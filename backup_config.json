@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "name": "",
+      "sourcePath": "C:/Users/trent/Desktop/test.txt",
+      "targetPath": "C:/Users/trent/Desktop/Python-BackupFiles/hello"
+    },
+    {
+      "name": "",
+      "sourcePath": "C:/Users/trent/Desktop/test.txt",
+      "targetPath": "C:/Users/trent/Desktop/Python-BackupFiles/hello/test.txt"
+    }
+  ]
+}

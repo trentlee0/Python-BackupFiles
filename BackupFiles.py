@@ -3,6 +3,7 @@ import os
 import os.path
 import time
 import json
+import re
 
 def main():
     configFileName = 'backup_config.json'
@@ -21,20 +22,19 @@ def main():
             json.dump(configObject, f, sort_keys=True, indent=2)
         print("已为您创建，请填写配置后再次运行程序。")
         print("配置说明：")
-        print('\t "name"：       为该项的标题，可不填')
-        print('\t "sourcePath"： 为源文件全路径，必填')
-        print('\t "targetPath"： 为目标文件夹全路径，必填')
+        print('\t "name"：       为该项的标题（非必填）')
+        print('\t "sourcePath"： 为源文件全路径或相对路径（必填）')
+        print('\t "targetPath"： 为目标文件夹全路径。如果为空则默认为当前程序目录（必填）')
         print()
         print("提示：")
         print("\t 1.注意文件路径分隔符为 '\\\\' 或 '/'。")
         print('\t 2.如果 "targetPath" 为文件路径（有后缀名），则文件复制后文件名不会修改。')
-        exit(0)
+        exit(1)
     
     dic = readFile(configFileName)
     items = dic['items']
-    print(items)
     copyFiles(items)
-    print('\n复制成功！！！')
+    print('\n全部处理完成！！！')
 
 def readFile(configFileName):
     with open(configFileName, 'r') as f:
@@ -43,29 +43,32 @@ def readFile(configFileName):
 
 
 def copyFiles(items):
-    for item in items:
+    for i, item in enumerate(items):
         sourcePath = item['sourcePath'].strip()
         targetPath = item['targetPath'].strip()
-        print(targetPath)
+        fileNameRe = r'[^/\\]+\.\w+$'
         # 是否修改文件名
         isModifyName = True
 
+        print('第%d个文件' % (i + 1))
         if targetPath.endswith('\\') or targetPath.endswith('/'):
             dirPath = os.path.dirname(targetPath)
             targetPath = dirPath
-        elif targetPath.rfind('.') > -1:
+        elif re.search(fileNameRe, targetPath):
             dirPath = os.path.dirname(targetPath)
             isModifyName = False
         else:
             dirPath = targetPath
 
         if not os.path.exists(dirPath) and dirPath != '':
-            print('文件夹 "%s" 不存在！' % dirPath)
+            print('  📁文件夹: "%s"' % dirPath)
+            print('  不存在', end='')
             os.makedirs(dirPath)
-            print("已创建！\n")
+            print("，已创建！")
 
         if not os.path.exists(sourcePath):
-            print("源文件 '%s' 不存在！" % sourcePath)
+            print("  📦源文件: '%s'" % sourcePath)
+            print('  不存在！\n')
             continue
 
         if sourcePath != '':
@@ -73,12 +76,16 @@ def copyFiles(items):
             if isModifyName:
                 targetPath = os.path.join(targetPath, '%s_%s.%s' % (t[0], getNowDate(), t[1]))
             
-            if os.path.exists(targetPath):
-                print('目标文件 "%s" 已经存在！' % targetPath)
-                print('退出复制！')
-                exit(0)
+            if os.path.isfile(targetPath):
+                print('  📦目标文件: "%s" ' % targetPath)
+                print('  已经存在！\n')
+                print('退出程序！！！')
+                exit(1)
             else:
+                print('  📦把文件: "%s"' % sourcePath)
+                print('  复制到:   "%s"' % targetPath)
                 shutil.copy(sourcePath, targetPath)
+                print('  🎉复制成功！\n')
 
 
 def doFileName(filePath):
@@ -91,7 +98,9 @@ def doFileName(filePath):
 
 def getNowDate():
     now = time.localtime()
-    return '%d-%d-%d' % (now.tm_year, now.tm_mon, now.tm_mday)
+    month = '%02d' % now.tm_mon
+    day = '%02d' % now.tm_mday
+    return '%d-%s-%s' % (now.tm_year, month, day)
 
 
 if __name__ == '__main__':
