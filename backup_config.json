@@ -2,19 +2,15 @@
   "items": [
     {
       "name": "",
-      "sourcePath": "D:\\Blogs",
-      "targetPath": "C:\\Users\\trent\\Desktop\\target1"
-    },
-    {
-      "name": "",
-      "sourcePath": "D:\\Blogs",
-      "targetPath": "C:\\Users\\trent\\Desktop\\target2"
+      "sourcePath": "C:/Users/trent/Desktop/Blogs/",
+      "targetPath": "C:/Users/trent/Desktop/test/"
     }
   ],
   "profile": {
     "ignoreFiles": [
       "desktop.ini"
     ],
-    "suffixName": "_%Y-%m-%d"
+    "overwrite": true,
+    "suffixName": ""
   }
 }
