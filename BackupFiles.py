@@ -37,17 +37,7 @@ def main():
         with open(os.path.join(os.getcwd(), 'backup_config.json'), 'w') as f:
             json.dump(configObject, f, sort_keys=True, indent=2)
         print('已在 %s 下创建文件: "backup_config.json"，请填写配置后再次运行程序。' % os.getcwd())
-        print("配置说明：")
-        print('\t "name"：       为该项的标题（非必填）')
-        print('\t "sourcePath"： 为源文件全路径或相对路径（必填）')
-        print('\t "targetPath"： 为目标文件夹全路径。如果为空则默认为当前程序目录（必填）')
-        print('\t "overwrite"：  是否用最新修改的文件覆盖原有的文件')
-        print('\t "suffixName"： 复制后文件名 = 源文件名 + suffixName（非必填）')
-        print('\t "ignoreFiles"：当 "sourcePath" 为文件夹路径时，忽略复制的所有文件下（非必填）')
-        print()
-        print("提示：")
-        print('\t 1.注意文件路径分隔符为 "\\\\" 或 "/"。')
-        print('\t 2.如果 "targetPath" 为文件路径（有后缀名），则文件复制后文件名不会修改。')
+        print("配置文件说明查看： https://github.com/trentlee0/Python-BackupFiles")
         exit(1)
 
     dic = readFile(configFileName)
@@ -60,7 +50,6 @@ def main():
 
     items = dic['items']
     copyFilesByConf(items)
-    os.system('clear')
     print('\n全部处理完成！！！')
 
 
@@ -129,7 +118,6 @@ def copyFiles(sourcePath, targetPath):
 
 
 def copyFile(sourcePath, targetPath):
-    print('\x1B[2J\x1B[0f')
     if os.path.isfile(targetPath):
         if overwrite and os.path.getmtime(sourcePath) > os.path.getmtime(targetPath):
             print('  覆盖文件: "%s" ' % targetPath)
