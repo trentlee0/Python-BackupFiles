@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "dateFormat": "_%Y-%m-%d",
+      "isOverwrite": false,
+      "sourcePath": "",
+      "targetPath": ""
+    }
+  ]
+}
